@@ -46,8 +46,11 @@
     		                <div class="col-xs-2">
 			                	<strong>Image</strong>
 			                </div>
-			                <div class="col-xs-4">
+			                <div class="col-xs-2">
 			                	<strong>Name</strong>
+			                </div>
+			                <div class="col-xs-2">
+			                	<strong>Company</strong>
 			                </div>
 			                <div class="col-xs-2">
 			                	<strong>Date</strong>
@@ -67,13 +70,19 @@
         		                <div class="col-xs-2">
 				                	<img t-if="o.image" t-att-src="'data:image/png;base64,%s' % o.image" style="max-height: 45px;"/>
 				                </div>
-				                <div class="col-xs-4">
+				                <div class="col-xs-2">
 				                	<strong>
 			                			<span t-field="o.name"/>
 		                			</strong>
 				                </div>
 				                <div class="col-xs-2">
+									<div t-field="o.parent_id" 
+										t-field-options='{"widget": "contact", "fields": ["address", "name", "phone", "fax"], "no_marker": true}'/>
+				                </div>
+				                <div class="col-xs-2">
 				                	<span t-field="o.date"/>
+				                	<!-- No hace falta usar formatlang, que de hecho me da error, porque luego cuando se haga la funcion translate va a ser convertido al formato correcto -->
+				                	<!-- <span t-esc="formatLang(o.date, date=True)"/> -->
 				                </div>
 				                <div class="col-xs-2">
                                     <span t-if="o.customer">Customer</span>
