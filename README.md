@@ -1,2 +1,3 @@
-odoo_examples
+odoo-examples
 =============
+Examples of different Odoo functionalities
