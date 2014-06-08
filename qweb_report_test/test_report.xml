@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report 
+            id="report_test_report"
+            string="Testing Report"
+            model="res.partner" 
+            report_type="qweb-html"
+            file="qweb_report_test.report_test"
+            name="qweb_report_test.report_test"
+        />
+        <report 
+            id="report_test_report_2"
+            string="Testing Report 2"
+            model="res.partner" 
+            report_type="qweb-html"
+            file="qweb_report_test.report_test_2"
+            name="qweb_report_test.report_test_2"
+        />
+    </data>
+</openerp>
