@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','website','sale'],
+    'depends': ['base','website','sale','account'],
     'data': [
         'test_report.xml',
         'views/test_report_view.xml',
