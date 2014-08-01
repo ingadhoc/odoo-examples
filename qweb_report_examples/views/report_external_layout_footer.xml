@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+<!-- Modificamos el footer por defecto -->
+<template id="external_layout_footer" inherit_id="report.external_layout_footer">
+    <xpath expr="//ul" position="inside">
+        <li>Una linea cualquiera</li>
+    </xpath>
+</template>
+
+    </data>
+</openerp>

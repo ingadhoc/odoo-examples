@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+<!-- Modificamos el header por defecto agregando el vat -->
+<template id="external_layout_header" inherit_id="report.external_layout_header">
+    <xpath expr="//div[@t-field='company.partner_id']" position="replace">
+        <div t-field="company.partner_id" 
+                t-field-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'/>
+        <div t-field="company.vat" style="border-bottom: 1px solid black;"/>
+    </xpath>
+</template>
+
+    </data>
+</openerp>

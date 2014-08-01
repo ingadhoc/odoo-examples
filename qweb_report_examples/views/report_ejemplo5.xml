@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+<!-- Ejemplo 5: igual al reporte 1 pero simplemente agregamos una funcion en partner que la llamamos desde el reporte -->
+<template id="report_ejemplo5_document">
+    <t t-call="report.external_layout">
+        <div class="page">
+            <div class="row">
+                <div class="col-xs-2">
+                    <strong>Name</strong>
+                </div>
+                <div class="col-xs-2">
+                    <strong>Nueva columna que llama a la nueva funcion!</strong>
+                </div>
+                <div class="col-xs-2">
+                    <strong>Image</strong>
+                </div>
+                <div class="col-xs-2">
+                    <strong>Credit</strong>
+                </div>
+                <div class="col-xs-2">
+                    <strong>Date</strong>
+                </div>
+                <div class="col-xs-2">
+                    <strong>Customer/Supplier</strong>
+                </div>
+            </div>            
+            <div class="row">
+                <div class="col-xs-2">
+                    <strong>
+                        <span t-field="o.name"/>
+                    </strong>
+                </div>
+                <div class="col-xs-2">
+                    <!-- Aca estamos llamando a la funcion 4 veces buscando las distitnas claves que recibimos en el diccionario -->
+                    amount_tax:<span t-raw="o.get_partner_sale_order_amounts(o.id, 'draft')['amount_tax']"/><br/>
+                    amount_undiscounted:<span t-raw="o.get_partner_sale_order_amounts(o.id, 'draft')['amount_undiscounted']"/><br/>
+                    amount_untaxed:<span t-raw="o.get_partner_sale_order_amounts(o.id, 'draft')['amount_untaxed']"/><br/>
+                    amount_total:<span t-raw="o.get_partner_sale_order_amounts(o.id, 'draft')['amount_total']"/><br/>
+                </div>
+                <div class="col-xs-2">
+                    <img t-if="o.image" t-att-src="'data:image/png;base64,%s' % o.image" style="max-height: 45px;"/>
+                </div>
+                <div class="col-xs-2">
+                    <span t-field="o.credit" t-field-options='{"widget":"monetary", "display_currency":"res_company.currency_id"}'/>
+                </div>
+                <div class="col-xs-2">
+                    <span t-field="o.date"/>
+                </div>
+                <div class="col-xs-2">
+                    <span t-if="o.customer">Customer</span>
+                    <span t-if="not o.customer">Supplier</span>
+                </div>
+            </div>
+        </div>
+    </t>
+</template>
+
+<!-- Segundo, iteramos sobre el documento creado anteriormente y lo traducimos -->
+<template id="report_ejemplo5">
+    <t t-call="report.html_container">
+        <t t-foreach="doc_ids" t-as="doc_id">
+            <t t-raw="translate_doc(doc_id, doc_model, 'lang', 'qweb_report_examples.report_ejemplo5_document')"/>
+        </t>
+    </t>
+</template>
+    </data>
+</openerp>

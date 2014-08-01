@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+<!-- Ejemplo 6: ejemplos de cosas que podemos usar en un reporte, hay que seguir
+agregando mas ejemplos 
+Cosas que nos falta incorporar:
+    poner que se puede usar groups en cualquier lugar! (no se que quise poner con esto)
+    definir funciones con lambda!
+    usar cosas como! (tampoco se que quiere decir esto)
+    Poner que cosas asi ayudan mucho a formatear: t t-esc="'%.2f' % ((1-line.discount / 100.0) * line.price_unit)
+-->
+<template id="report_ejemplo6_document">
+    <t t-call="report.external_layout">
+        <div class="page">
+            <div class="row">
+                <!-- Defimos algunos estilos internos -->
+                <h2>Estilos</h2>
+                <t t-set="style1" t-value="'font-weight:normal;'"/>
+                <t t-set="style2" t-value="'font-weight:bold;'"/>
+
+                <!-- Luego los podemos usar con -->
+                <p t-att-style="style1">Prueba style 1, font-weight:normal</p>
+                <p t-att-style="style2">Prueba style 2, font-weight:bold</p>  
+                
+                <h2>Campos Fecha / Fecha-hora</h2>
+                <!-- Opciones campos date -->
+                <span>t-field de campo datetime: Este no anda, supongo que porque en la vista esta configurado como "date" pero en realidad es "datetime"</span>
+                <p t-field="o.create_date"/>
+                
+                <span>t-field de campo datetime especificando widget datetime: Este si anda</span>
+                <p t-field="o.create_date" t-field-options='{"widget": "datetime"}'/>
+                
+                <span>t-field de campo datetime con widget date: Este no anda porque no sabe como foramtear la info de la hora (unconverted data remains:  20:01:21)</span>
+                <p t-field="o.create_date" t-field-options='{"widget": "date"}'/>
+                
+                <span>Imprimiendo date today con distintos formatos</span>
+                <p t-raw="time"/>
+                <p t-raw="datetime.date.today()"/>
+                <p t-raw="datetime.date.today().strftime('%d-%m-%Y')"/>
+                
+                <span>Imprimiendo datetime today con distintos formatos</span>
+                <p t-raw="datetime.datetime.today()"/>
+                <p t-raw="datetime.datetime.today().strftime('%d-%m-%Y %H:%M:%S')"/>
+                
+                <span>Formateando un datetime a date</span>
+                <p t-raw="datetime.datetime.strptime(o.create_date, '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d')"/>
+
+
+                <h3>Fechas con formatlang</h3>
+                <p>Para usar formatlang hay que hacer una cosa en python, es la carpeta report de este modulo. Formatlang no aporte porque ya lo hace solo, era para compatibilidad hacia atras. No me acepto el argumento datetime, no puede convertirlo y no lo imprime.</p>
+                <p t-esc="formatLang(o.create_date,date = True)"/>
+
+                <span>Formateando dates de datetime con distintos formatos</span>
+                <p t-raw="datetime.date.today().strftime('%d-%m-%Y')"/>
+                <p t-esc="formatLang(datetime.date.today().strftime('%Y-%m-%d'),date = True)"/>
+
+                <h2>Widgets</h2>
+                <span>Otros widget que se pueden usar y ejemplos</span>
+                <ul>
+                    <li>t-field-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'</li>
+                    <li>t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'</li>
+                    <li>t-field-options='{"widget": "contact", "country_image": true, "fields": ["name", "country_id"]}'</li>
+                    <li>t-field-options='{"widget": "image", "class": "media-object"}'</li>
+                    <li>t-field-options='{"widget": "image", "class": "center-block mb16"}'</li>
+                </ul>
+                
+                <h2>Funciones en el reporte</h2>                
+                <h3>Función en otro modelo. Buscamos las sale orders del partner</h3>
+                <t t-foreach="o.env['sale.order'].search([('partner_id','=',o.id)])" t-as="so">
+                     Sale Order: <span t-field="so.name"/><br/>
+                </t>
+                
+                <h3>Función en el mismo modelo, simplemente buscamos los ids</h3>
+                <span t-raw="o.search([]).ids"/>
+                
+                <h3>Función definida en el parser que devuelve un litsado de sale orders</h3>
+                <t t-foreach="sale_orders(o.id)" t-as="so">
+                     Sale Order: <span t-field="so.name"/><br/>
+                </t>
+
+                <h2>Imagenes</h2>
+                <span>imagenes con t-field</span>
+                <span>class center-block</span>
+                <span t-field="o.image" t-field-options='{"widget": "image", "class": "center-block"}'/>
+                <span>class img-circle</span>
+                <span t-field="o.image" t-field-options='{"widget": "image", "class": "img-circle"}'/>
+                <span>class shadow</span>
+                <span t-field="o.image" t-field-options='{"widget": "image", "class": "shadow"}'/>
+                <span>class media-object e intentado max_with pero no funciona, imagino que el with va no para reportes si no para widget y paginas y demas</span>
+                <span t-field="o.image" t-field-options='{"widget": "image", "class": "media-object", "max_width": 32}'/>
+            </div>            
+        </div>
+    </t>
+</template>
+
+<!-- Segundo, iteramos sobre el documento creado anteriormente y lo traducimos -->
+<template id="report_ejemplo6">
+    <t t-call="report.html_container">
+        <t t-foreach="doc_ids" t-as="doc_id">
+            <t t-raw="translate_doc(doc_id, doc_model, 'lang', 'qweb_report_examples.report_ejemplo6_document')"/>
+        </t>
+    </t>
+</template>
+    </data>
+</openerp>

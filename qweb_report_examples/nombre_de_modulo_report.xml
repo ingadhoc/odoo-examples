@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- A tener encuenta:
+        * id: Por convencion usamos el id de la vista (no document) y le agregamos el prefijo "action" porque al fin y al cabo es una report action
+        * string: el titulo que queremos que aparezca en los menus desplegables "print"
+        * model: modelo donde queremos que aparezca este reporte disponible para ser impreso
+        * report_type: basicamente tenemos tres opciones:
+            * qweb-html: sale un pop up html
+            * qweb-pdf: sale un pop up pdf (es basicamente igual al html pero solo que luego es convertido a pdf 
+            * controller: caso totalmente distinto. Con el id "account.action_report_vat" estamos modificando un reporte nativo de account para que saque un xls en vez de un pdf. Se puede ver ese ejemplo. Para ver el reporte se debe ir a "contabilidad/informes/informes genéricos/impuestos/informe de impuestos"
+            * file y name: [nombre_modulo].[nombre_vista_reporte (no document)] -->
+        <report 
+            id="action_report_ejemplo1"
+            string="Ejemplo 1"
+            model="res.partner" 
+            report_type="qweb-html"
+            file="qweb_report_examples.report_ejemplo1"
+            name="qweb_report_examples.report_ejemplo1"
+        />
+        <report 
+            id="action_report_ejemplo2"
+            string="Ejemplo 2"
+            model="res.partner" 
+            report_type="qweb-html"
+            file="qweb_report_examples.report_ejemplo2"
+            name="qweb_report_examples.report_ejemplo2"
+        />
+        <report 
+            id="action_report_ejemplo3"
+            string="Ejemplo 3"
+            model="res.partner" 
+            report_type="qweb-html"
+            file="qweb_report_examples.report_ejemplo3"
+            name="qweb_report_examples.report_ejemplo3"
+        />
+        <report 
+            id="action_report_ejemplo4"
+            string="Ejemplo 4"
+            model="res.partner" 
+            report_type="qweb-html"
+            file="qweb_report_examples.report_ejemplo4"
+            name="qweb_report_examples.report_ejemplo4"
+        />
+        <report 
+            id="action_report_ejemplo5"
+            string="Ejemplo 5"
+            model="res.partner" 
+            report_type="qweb-html"
+            file="qweb_report_examples.report_ejemplo5"
+            name="qweb_report_examples.report_ejemplo5"
+        />
+        <report 
+            id="action_report_ejemplo6"
+            string="Ejemplo 6"
+            model="res.partner" 
+            report_type="qweb-html"
+            file="qweb_report_examples.report_ejemplo6"
+            name="qweb_report_examples.report_ejemplo6"
+        />
+
+        <!-- Acá estamos dando de alta un report tipo controller, lo damos de alta sin el atajo "record" porque no sabemos como pasar el "report_rml" con dicho atajo.  -->
+        <record id="account.action_report_vat" model="ir.actions.report.xml">
+            <field name="report_type">controller</field>
+            <field name="report_rml">/report/account.report_vat_xls</field>
+        </record>
+    </data>
+</openerp>

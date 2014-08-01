@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+<!-- Ejemplo 4: igual al reporte 1 pero agregamos un archivo .py que pasa en la variable
+report el reporte que lo esta llamando. Tambien pasa una funcion ... TODO -->
+<template id="report_ejemplo4_document">
+    <t t-call="report.external_layout">
+        <div class="page">
+            <!-- Aca usamos la variable report que no la tendriamos -->
+            <h2 t-field="report.name"/>
+            <div class="row">
+                <div class="col-xs-2">
+                    <strong>Name</strong>
+                </div>
+                <div class="col-xs-2">
+                    <strong>Nueva columna que llama a la nueva funcion!</strong>
+                </div>
+                <div class="col-xs-2">
+                    <strong>Image</strong>
+                </div>
+                <div class="col-xs-2">
+                    <strong>Credit</strong>
+                </div>
+                <div class="col-xs-2">
+                    <strong>Date</strong>
+                </div>
+                <div class="col-xs-2">
+                    <strong>Customer/Supplier</strong>
+                </div>
+            </div>            
+            <div class="row">
+                <div class="col-xs-2">
+                    <strong>
+                        <span t-field="o.name"/>
+                    </strong>
+                </div>
+                <div class="col-xs-2">
+                    <!-- Esto no lo pude hacer andar, ver archivo report_ejemplo4.py -->
+                    <!-- <span t-raw="get_sale_order_amounts(o.id, 'draft')"/> -->
+                </div>
+                <div class="col-xs-2">
+                    <img t-if="o.image" t-att-src="'data:image/png;base64,%s' % o.image" style="max-height: 45px;"/>
+                </div>
+                <div class="col-xs-2">
+                    <span t-field="o.credit" t-field-options='{"widget":"monetary", "display_currency":"res_company.currency_id"}'/>
+                </div>
+                <div class="col-xs-2">
+                    <span t-field="o.date"/>
+                </div>
+                <div class="col-xs-2">
+                    <span t-if="o.customer">Customer</span>
+                    <span t-if="not o.customer">Supplier</span>
+                </div>
+            </div>
+        </div>
+    </t>
+</template>
+
+<!-- Segundo, iteramos sobre el documento creado anteriormente y lo traducimos -->
+<template id="report_ejemplo4">
+    <t t-call="report.html_container">
+        <t t-foreach="doc_ids" t-as="doc_id">
+            <t t-raw="translate_doc(doc_id, doc_model, 'lang', 'qweb_report_examples.report_ejemplo4_document')"/>
+        </t>
+    </t>
+</template>
+    </data>
+</openerp>

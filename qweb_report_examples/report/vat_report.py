@@ -3,8 +3,6 @@ from openerp import http
 from openerp.http import request
 from openerp.osv import osv
 from openerp.report import report_sxw
-# from common_report_header import common_report_header
-
 import simplejson
 import time
 import xlwt
@@ -40,11 +38,6 @@ class tax_report(report_sxw.rml_parse):
             'get_general': self._get_general,
             'get_currency': self._get_currency,
             'get_lines': self._get_lines,
-            # 'get_fiscalyear': self._get_fiscalyear,Z
-            # 'get_account': self._get_account,
-            # 'get_start_period': self.get_start_period,
-            # 'get_end_period': self.get_end_period,
-            # 'get_basedon': self._get_basedon,
         })
 
     def _get_basedon(self, form):

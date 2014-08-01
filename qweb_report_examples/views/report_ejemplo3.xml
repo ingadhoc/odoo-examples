@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+<!-- Ejemplo 3: reporte que no usa header  por defecto si no que define el suyo propio
+Notas:
+* si usa el footer por defecto
+* Tranquilamente este haader podria estar defindo afuera y ser reutilizado por otros si interesa -->
+<template id="report_ejemplo3_document">
+    <!-- esto es para tener a la compania -->
+    <t t-if="o and 'company_id' in o">
+        <t t-set="company" t-value="o.company_id"/>
+    </t>
+    <t t-if="not o or not 'company_id' in o">
+        <t t-set="company" t-value="res_company"/>
+    </t>
+
+    <!-- llamamos al footer -->
+    <t t-call="report.external_layout_footer"/>
+    
+    <!-- robamos del header y ponemos lo nuestro -->
+    <div class="header">
+        <div class="page-header">
+            <h1>
+                <strong>Titulo en mi header</strong>
+            </h1>
+        </div>            
+        <div class="row">
+            <div class="col-xs-3">
+                <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 45px;"/>
+            </div>
+            <div class="col-xs-9 text-right" style="margin-top:20px;" t-field="company.rml_header1"/>
+        </div>
+        <div class="row zero_min_height">
+            <div class="col-xs-12">
+                <div style="border-bottom: 1px solid black;"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-3">
+                <div t-field="company.partner_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: true}" style="border-bottom: 1px solid black;"/>
+            </div>
+        </div>
+        <!-- Esta parte es la que agregamos nosotros -->
+    </div>
+    <!-- nuestro contenido page de casi siempre -->
+    <div class="page">
+        <div class="row">
+            <div class="col-xs-4">
+                <strong>Name</strong>
+            </div>
+            <div class="col-xs-2">
+                <strong>Image</strong>
+            </div>
+            <div class="col-xs-2">
+                <strong>Credit</strong>
+            </div>
+            <div class="col-xs-2">
+                <strong>Date</strong>
+            </div>
+            <div class="col-xs-2">
+                <strong>Customer/Supplier</strong>
+            </div>
+        </div>            
+        <div class="row">
+            <div class="col-xs-4">
+                <strong>
+                    <span t-field="o.name"/>
+                </strong>
+            </div>
+            <div class="col-xs-2">
+                <img t-if="o.image" t-att-src="'data:image/png;base64,%s' % o.image" style="max-height: 45px;"/>
+            </div>
+            <div class="col-xs-2">
+                <span t-field="o.credit" t-field-options='{"widget":"monetary", "display_currency":"res_company.currency_id"}'/>
+            </div>
+            <div class="col-xs-2">
+                <span t-field="o.date"/>
+            </div>
+            <div class="col-xs-2">
+                <span t-if="o.customer">Customer</span>
+                <span t-if="not o.customer">Supplier</span>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="report_ejemplo3">
+    <t t-call="report.html_container">
+        <t t-foreach="doc_ids" t-as="doc_id">
+            <t t-raw="translate_doc(doc_id, doc_model, 'lang', 'qweb_report_examples.report_ejemplo3_document')"/>
+        </t>
+    </t>
+</template>
+    </data>
+</openerp>

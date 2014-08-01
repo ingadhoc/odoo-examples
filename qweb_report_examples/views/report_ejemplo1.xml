@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+<!-- Si bien este contenido deberia ir indentando, para facilitar la lectura se arranca sin tabulacion -->
+<!-- Ejemplo 1: reporte que sera traducido. 
+Notar que el resultado es muy diferente al del ejemplo 2-->
+<!-- Primero creamo este con sufijo document que luego sera traducido e iterado en los ids -->
+<template id="report_ejemplo1_document">
+    <t t-call="report.external_layout">
+        <!-- Contenido que vamos a usar en la mayoria de ejemplos -->
+        <div class="page">
+            <div class="row">
+                <div class="col-xs-4">
+                    <strong>Name</strong>
+                </div>
+                <div class="col-xs-2">
+                    <strong>Image</strong>
+                </div>
+                <div class="col-xs-2">
+                    <strong>Credit</strong>
+                </div>
+                <div class="col-xs-2">
+                    <strong>Date</strong>
+                </div>
+                <div class="col-xs-2">
+                    <strong>Customer/Supplier</strong>
+                </div>
+            </div>            
+            <div class="row">
+                <div class="col-xs-4">
+                    <strong>
+                        <span t-field="o.name"/>
+                    </strong>
+                </div>
+                <div class="col-xs-2">
+                    <img t-if="o.image" t-att-src="'data:image/png;base64,%s' % o.image" style="max-height: 45px;"/>
+                </div>
+                <div class="col-xs-2">
+                    <span t-field="o.credit" t-field-options='{"widget":"monetary", "display_currency":"res_company.currency_id"}'/>
+                </div>
+                <div class="col-xs-2">
+                    <span t-field="o.date"/>
+                </div>
+                <div class="col-xs-2">
+                    <span t-if="o.customer">Customer</span>
+                    <span t-if="not o.customer">Supplier</span>
+                </div>
+            </div>
+        </div>
+    </t>
+</template>
+
+<!-- Segundo, iteramos sobre el documento creado anteriormente y lo traducimos -->
+<template id="report_ejemplo1">
+    <t t-call="report.html_container">
+        <t t-foreach="doc_ids" t-as="doc_id">
+            <t t-raw="translate_doc(doc_id, doc_model, 'lang', 'qweb_report_examples.report_ejemplo1_document')"/>
+        </t>
+    </t>
+</template>
+
+    </data>
+</openerp>
