@@ -10,6 +10,7 @@
 Qweb Report Examples
 ====================
 Simple module to test some functionalities and make some examples related to the QWeb reporting facilities of Odoo V8
+
 Tener en cuenta:
 ----------------
 * Leer bootstrap: http://getbootstrap.com/css/
